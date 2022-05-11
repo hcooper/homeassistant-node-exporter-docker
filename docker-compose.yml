@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+  node-exporter:
+    image: prom/node-exporter
+    container_name: node-exporter
+    network_mode: host
+    pid: host
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/host/root:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--path.rootfs=/host/root"
+      - "--collector.filesystem.mount-points-exclude"
+      - "^/(dev|etc|host|proc|run|sys|var)"
+      #- "--log.level=debug"
